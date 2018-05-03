@@ -8,7 +8,14 @@ import { NavComponent } from './nav/nav.component';
 import { AuthService } from './services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { AlertifyService } from './services/alertify.service';
+import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -20,10 +27,18 @@ import { RegisterComponent } from './register/register.component';
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    }),
+    BsDropdownModule.forRoot()
   ],
   providers: [
-    AuthService
+    AuthService,
+    AlertifyService
   ],
   bootstrap: [AppComponent]
 })
