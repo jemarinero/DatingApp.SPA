@@ -12,16 +12,17 @@ import { AlertifyService } from './services/alertify.service';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { MemberListComponent } from './member-list/member-list.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
+import { UserService } from './services/user.service';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { AuthModule } from './auth/auth.module';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 
-export function tokenGetter() {
-  return localStorage.getItem('token');
-}
 
 @NgModule({
   declarations: [
@@ -31,25 +32,23 @@ export function tokenGetter() {
     RegisterComponent,
     MemberListComponent,
     ListsComponent,
-    MessagesComponent
+    MessagesComponent,
+    MemberCardComponent,
+    MemberDetailComponent
 ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
-    HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter
-      }
-    }),
+    AuthModule,    
     BsDropdownModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
     AuthService,
     AlertifyService,
-    AuthGuard
+    AuthGuard,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
